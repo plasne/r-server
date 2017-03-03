@@ -25,3 +25,13 @@ conn <- "DRIVER=ODBC Driver 13 for SQL Server;SERVER=tcp:plasne-db01.database.wi
 data <- RxSqlServerData(sqlQuery = “SELECT * FROM dbo.dim_colors”, connectionString = conn)
 head(data)
 ```
+
+## Publishing Web APIs of R code
+
+1. You must enable Operationalization as per the instructions here: https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-r-server-get-started; specifically the bottom part of the article entitled “Using Microsoft R Server Operationalization” and the following section to enable across the worker nodes.
+
+2. The 12800 port doesn’t appear to be open through the public gateway, so you have to connect to the RServer from a system on the same VNET (deployed in Azure or use Point-to-Site VPN) or use SSH port forward tunneling as described here: https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-r-server-get-started; specifically the “RServer Cluster not set up on virtual network” portion.
+
+3. You can test with the service as described here: https://msdn.microsoft.com/en-us/microsoft-r/operationalize/data-scientist-get-started?f=255&MSPPError=-2147217396.
+
+  * Note what it says near the bottom of the article when working with a remote R session you must pause() and resume() in order to publishService(). That was my experience as well, but for some reason it only said that at the very bottom of this page and not on any of the other samples.
